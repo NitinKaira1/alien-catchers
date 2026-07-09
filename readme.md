@@ -41,7 +41,7 @@ might be checking you back.
 ### Option 1 — clone and install (recommended)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/alien-catchers.git
+git clone https://github.com/NitinKaira1/alien-catchers.git
 cd alien-catchers
 pip install -e .
 alien-catchers
@@ -50,7 +50,7 @@ alien-catchers
 ### Option 2 — install directly from GitHub, no clone needed
 
 ```bash
-pipx install git+https://github.com/YOUR_USERNAME/alien-catchers.git
+pipx install git+https://github.com/NitinKaira1/alien-catchers.git
 alien-catchers
 ```
 
@@ -60,7 +60,7 @@ alien-catchers
 ### Option 3 — just run it, no install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/alien-catchers.git
+git clone https://github.com/NitinKaira1/alien-catchers.git
 cd alien-catchers
 pip install -r requirements.txt   # Windows only actually needs this
 python main.py
