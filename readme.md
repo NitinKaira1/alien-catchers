@@ -83,29 +83,7 @@ python main.py
 | `F` | Toggle dev/debug panel |
 | `Q` | Quit |
 
-## Audio (optional)
 
-The game runs completely silently out of the box — every audio call is a
-safe no-op if `pygame` or the sound files aren't present. To add your own:
-
-```bash
-pip install pygame
-```
-
-Then drop audio files into `assets/audio/` using these exact names:
-
-```
-assets/audio/menu.ogg
-assets/audio/investigation.ogg
-assets/audio/hunt.ogg
-assets/audio/red_zone.ogg
-assets/audio/win.ogg
-assets/audio/lose.ogg
-assets/audio/gunshot.wav
-assets/audio/close_call.wav
-```
-
-Nothing else needs to change — see `audio.py` for details.
 
 ## Tech
 
