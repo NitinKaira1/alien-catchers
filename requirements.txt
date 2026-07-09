@@ -1,0 +1,10 @@
+# Core game has no dependencies on Linux/macOS — curses ships
+# with Python's standard library there.
+
+# Windows only: the standard library's curses module doesn't exist
+# on Windows, so this drop-in replacement is required.
+windows-curses; platform_system == "Windows"
+
+# Optional: only needed if you want background music / sound effects.
+# The game runs fine without it — audio calls just silently no-op.
+pygame>=2.1
