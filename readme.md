@@ -33,8 +33,7 @@ might be checking you back.
   wary of you, giving the real threat more room to move.
 - **Dynamic case report** — every ending recaps your ammo, civilian
   casualties, close calls, and public trust.
-- **Optional music & sound** — silent by default, drop in your own audio
-  files and it just works (see [Audio](#audio-optional) below).
+
 
 ## Installation
 
