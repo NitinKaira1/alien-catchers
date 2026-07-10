@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "alien-catchers"
-version = "0.1.0"
+version = "0.2.0"
 description = "A terminal investigation-horror game — an alien is wearing someone's face. Find it before it finds you."
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
-authors = [{ name = "NITIN KAIRA" }]
+authors = [{ name = "Your Name" }]
 keywords = ["game", "terminal", "curses", "ascii", "horror", "mystery", "roguelike"]
 classifiers = [
     "Environment :: Console :: Curses",
@@ -22,6 +22,8 @@ dependencies = [
     "windows-curses; platform_system=='Windows'",
 ]
 
+[project.optional-dependencies]
+audio = ["pygame>=2.1"]
 
 [project.scripts]
 alien-catchers = "main:run"
@@ -44,4 +46,5 @@ py-modules = [
     "world_graph",
     "computer",
     "config",
+    "audio",
 ]
