@@ -10,6 +10,7 @@ from computer import Computer
 import random
 from monster_db import MONSTERS
 from game_state import GameState
+import audio
 
 logging.basicConfig(
     filename="game.log",
@@ -20,12 +21,16 @@ logger = logging.getLogger("alien_catchers")
 
 
 class Game:
-    def __init__(self, stdscr, npcs, total_npcs):
+    def __init__(self, stdscr, npcs, total_npcs, difficulty=DEFAULT_DIFFICULTY):
         import random
         from monster_db import MONSTERS
 
         self.stdscr = stdscr
         self.npcs = npcs
+
+        # ---------------- DIFFICULTY ----------------
+        self.difficulty = difficulty if difficulty in DIFFICULTY_PRESETS else DEFAULT_DIFFICULTY
+        preset = DIFFICULTY_PRESETS[self.difficulty]
 
         # ---------------- MAP / PLAYER ----------------
         self.map_x = 0
@@ -54,7 +59,7 @@ class Game:
         self.selected_monster = None
 
         # ---------------- COMBAT ----------------
-        self.ammo = 6
+        self.ammo = preset["ammo"]
         self.in_encounter = False
         self.encounter_choice = 0
         self.encounter_options = ["Shoot", "Leave"]
@@ -65,22 +70,23 @@ class Game:
 
         # ---------------- DANGER TRACKING ----------------
         self.monster_touches = 0
-        self.max_monster_touches = 3
+        self.max_monster_touches = preset["max_monster_touches"]
+        self.monster_touch_chance = preset["monster_touch_chance"]
 
         # ---------------- RED ZONE ESCAPE TIMER ----------------
         # Starts counting down the moment you enter the monster's
         # chunk. Run out of time before you leave and it catches
         # you — you can't just camp there checking every NPC.
         self.red_zone_timer = None
-        self.red_zone_time_limit = 40
+        self.red_zone_time_limit = preset["red_zone_time_limit"]
 
         # ---------------- SUSPICION TRACKING ----------------
         # Every ID check nudges this up — you can't tell civilian
         # from monster before checking, so it applies either way.
         # Interrogate too many people and the city turns on you.
         self.suspicion = 0
-        self.suspicion_wary_threshold = 8
-        self.suspicion_hostile_threshold = 16
+        self.suspicion_wary_threshold = preset["suspicion_wary_threshold"]
+        self.suspicion_hostile_threshold = preset["suspicion_hostile_threshold"]
         self.suspicion_warned_wary = False
         self.suspicion_warned_hostile = False
 
@@ -192,8 +198,9 @@ class Game:
         if not self.is_adjacent_to_monster():
             return
 
-        if random.random() < 0.4:
+        if random.random() < self.monster_touch_chance:
             self.monster_touches += 1
+            audio.play_sfx("close_call")
 
             if self.monster_touches >= self.max_monster_touches:
                 self.state = GameState.END
@@ -222,6 +229,19 @@ class Game:
                 # Escaped in time — clock resets for next time.
                 self.red_zone_timer = None
             self.state = GameState.HUNT
+
+    def update_music(self):
+        """Switches the looping background track based on game state.
+        play_music() itself already no-ops if the track is already
+        playing, so it's safe to call this every turn."""
+        track = {
+            GameState.INVESTIGATION: "investigation",
+            GameState.HUNT: "hunt",
+            GameState.RED_ZONE: "red_zone",
+        }.get(self.state)
+
+        if track:
+            audio.play_music(track)
 
     def check_red_zone_timer(self):
         """
@@ -589,6 +609,7 @@ class Game:
 
         return [
             "--- CASE REPORT ---",
+            f"Difficulty       : {self.difficulty}",
             f"Civilians lost   : {killed}/{self.total_npcs}",
             f"Ammo remaining   : {self.ammo}",
             f"Close calls      : {self.monster_touches}/{self.max_monster_touches}",
@@ -596,6 +617,7 @@ class Game:
         ]
 
     def show_game_over(self):
+        audio.play_stinger("lose")
         self.stdscr.clear()
         h, w = self.stdscr.getmaxyx()
 
@@ -688,6 +710,7 @@ class Game:
 
 
     def show_win_screen(self):
+        audio.play_stinger("win")
         self.stdscr.clear()
         h, w = self.stdscr.getmaxyx()
 
@@ -731,6 +754,7 @@ class Game:
             return
 
         self.ammo -= 1
+        audio.play_sfx("gunshot")
 
         # 🔴 MONSTER
         if self.encounter_target == "monster":
@@ -814,6 +838,9 @@ class Game:
 
             # Update state (RED_ZONE / HUNT)
             self.update_state()
+
+            # 🎵 Switch background track to match current state
+            self.update_music()
 
             # ⏱ Escape timer (must leave the zone before it runs out)
             self.check_red_zone_timer()
