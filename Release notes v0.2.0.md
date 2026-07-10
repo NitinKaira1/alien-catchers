@@ -33,4 +33,4 @@ pip install -e . --upgrade
 alien-catchers
 ```
 
-Full details in [CHANGELOG.md](CHANGELOG.md).
+Full details in [CHANGELOG.md](changelog.md).
