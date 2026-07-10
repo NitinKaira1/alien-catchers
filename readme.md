@@ -33,15 +33,14 @@ might be checking you back.
   wary of you, giving the real threat more room to move.
 - **Dynamic case report** — every ending recaps your ammo, civilian
   casualties, close calls, and public trust.
-- **Optional music & sound** — silent by default, drop in your own audio
-  files and it just works (see [Audio](#audio-optional) below).
+
 
 ## Installation
 
 ### Option 1 — clone and install (recommended)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/alien-catchers.git
+git clone https://github.com/NitinKaira1/alien-catchers.git
 cd alien-catchers
 pip install -e .
 alien-catchers
@@ -50,7 +49,7 @@ alien-catchers
 ### Option 2 — install directly from GitHub, no clone needed
 
 ```bash
-pipx install git+https://github.com/YOUR_USERNAME/alien-catchers.git
+pipx install git+https://github.com/NitinKaira1/alien-catchers.git
 alien-catchers
 ```
 
@@ -60,7 +59,7 @@ alien-catchers
 ### Option 3 — just run it, no install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/alien-catchers.git
+git clone https://github.com/NitinKaira1/alien-catchers.git
 cd alien-catchers
 pip install -r requirements.txt   # Windows only actually needs this
 python main.py
@@ -83,29 +82,7 @@ python main.py
 | `F` | Toggle dev/debug panel |
 | `Q` | Quit |
 
-## Audio (optional)
 
-The game runs completely silently out of the box — every audio call is a
-safe no-op if `pygame` or the sound files aren't present. To add your own:
-
-```bash
-pip install pygame
-```
-
-Then drop audio files into `assets/audio/` using these exact names:
-
-```
-assets/audio/menu.ogg
-assets/audio/investigation.ogg
-assets/audio/hunt.ogg
-assets/audio/red_zone.ogg
-assets/audio/win.ogg
-assets/audio/lose.ogg
-assets/audio/gunshot.wav
-assets/audio/close_call.wav
-```
-
-Nothing else needs to change — see `audio.py` for details.
 
 ## Tech
 
